@@ -1,16 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="bikeTrace" ng-controller="makeMap">
+<html lang="en" ng-app="bikeTrace">
 <head>
 
     <link type="text/css" rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-<p>hi</p>
-<div id="map-canvas" style="width: 100%; height: 100%"></div>
+<div class="mainUI" ng-controller="queryConnect">
+    <label for="querySection" class="title">Find Bike Routes</label>
+    <form id="querySection">
+        Around
+        <input type="text" placeholder="City,State,Zip,Landmark" id="search" autofocus required>
+        <label for="minimum">Between</label>
+        <input type="number" min="0" max="200" step="1" id="minimum" ng-model="min" required>
+        <label for="maximum">and</label>
+        <input type="number" min="1" max="200" step="1" id="maximum" ng-model="max" required>
+        Miles
+        <input type="submit" value="View" id="view">
+    </form>
+    <label for="tools" class="subTitle">Settings</label>
+    <form id="tools">
+        <input type="button" value="Settings" id="settings">
+        <label for="EnableHeatMap">Enable Heat Map</label>
+        <input type="checkbox" id="EnableHeatMap">
+    </form>
+</div>
+<div make-map></div>
+<!--<div id="map-canvas" style="width: 100%; height: 100%"></div>-->
 </body>
 
 <script src="lib/angular.min.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=drawing&sensor=false"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&sensor=false"></script>
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>
