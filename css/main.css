@@ -68,3 +68,25 @@ body{
 #EnableHeatMap{
     border-style: none;
 }
+
+.panel {
+    position: fixed;
+    left: -15.625em; /*left or right and the width of your navigation panel*/
+    width: 15.625em; /*should match the above value*/
+}
+
+dl.Zebra_Accordion {
+    width: 400px; font-family: Arial, sans-serif; font-size: 12px
+}
+
+dl.Zebra_Accordion dt {
+    background: #000; color: #FFF; font-weight: bold; padding: 5px
+}
+
+dl.Zebra_Accordion dd {
+    background: #EFEFEF; padding: 15px; margin: 1px 0
+}
+
+dl.Zebra_Accordion dt.Zebra_Accordion_Expanded {
+    background: #C40000
+}

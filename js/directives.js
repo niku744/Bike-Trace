@@ -3,7 +3,7 @@
  */
 'use strict';
 var bikeTrace = angular.module('bikeTrace.directives', []);
-
+//this directive makes and sets up the map
 bikeTrace.directive('makeMap', function(){
     return{
         restrict: 'A',
@@ -76,6 +76,34 @@ bikeTrace.directive('makeMap', function(){
 
 
 
+        }
+    };
+});
+//this directive makes the sidebar
+bikeTrace.directive('makeSidebarNav',function(){
+    return{
+        restrict: 'A',
+        replace: true ,
+        template:'<div id="sidr"><dl class="Zebra_Accordion"><dt>Filter</dt><dd></dd><dt>Saved Markers</dt><dd></dd><dt>Download</dt><dd><form><input type="button" value="Download All Data" id="downloadAllData"></form></dd></dl></div>',
+        link: function(scope,elem,attrs){
+           var makeThing =function(){
+               //sidebar code
+//               $(document).ready(function() {
+                   $('#simple-menu').sidr();
+//               });
+
+               //accordion code
+//               $(document).ready(function() {
+
+                   new $.Zebra_Accordion($('.Zebra_Accordion'));
+
+//               });
+
+//               $(document).ready(function() {
+                   var myAccordion = new $.Zebra_Accordion($('.Zebra_Accordion'));
+//               });
+           };
+           makeThing();
         }
     };
 });
