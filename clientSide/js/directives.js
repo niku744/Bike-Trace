@@ -46,25 +46,24 @@ bikeTrace.directive('makeMap', function(){
                 //A reference to the map is attached to a scope variable
                 scope.map=map;
 
-                //info window content is defined here
-                var contentString = '<div>Count</div>';
-
-                //info window content is assigned to the info window here
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString
-                });
+                //save markers to permanent location
+                scope.markerArray = new Array();
 
                 //an event listener is made for markers made by the drawing manager, the event listener in turn attaches
                 // another event listener to the newly created marker to then display an info window when the marker is
                 // clicked.
                 google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
 
+                    //automatically save a marker after it is created
+
                     //event listener is attached to the new marker here
-                    google.maps.event.addListener(marker, 'click', function() {
+                    google.maps.event.addListener(marker, 'click', function(){
+                        //calculate routes near marker and then put the result as content for the info window
 
                         infowindow.open(map,marker);
 
                     });
+
 
                 });
 
@@ -79,6 +78,7 @@ bikeTrace.directive('makeMap', function(){
         }
     };
 });
+
 //this directive makes the sidebar
 bikeTrace.directive('makeSidebarNav',function(){
     return{
@@ -107,3 +107,13 @@ bikeTrace.directive('makeSidebarNav',function(){
         }
     };
 });
+
+////this directive draws polylines from bike route data
+//bikeTrace.directive('drawBikeRoutes',function(){
+//
+//});
+
+////this directive makes a heatmap out of bike route data
+//bikeTrace.directive('makeRouteHeatMap',function(){
+//
+//});

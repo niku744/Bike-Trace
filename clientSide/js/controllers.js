@@ -5,7 +5,8 @@
 
 var bikeTrace=angular.module('bikeTrace.controllers', []);
 
-bikeTrace.controller('queryConnect', function($scope){
+//this controller connects the input form elements
+bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceData,$scope){
     var input = document.getElementById('search');
 
     var searchBox = new google.maps.places.Autocomplete(input);
@@ -18,5 +19,4 @@ bikeTrace.controller('queryConnect', function($scope){
     $scope.min="";
     $scope.max="";
 
-
-});
+}]);
