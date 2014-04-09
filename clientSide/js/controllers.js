@@ -19,4 +19,17 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
     $scope.min="";
     $scope.max="";
 
+    $scope.doThing= function(){
+        if(min>max){
+            alert("Make sure lower end of search range is less than the higher end")
+        }else if(max<min){
+            alert("Make sure the higher end of search range is greater than the lowe end")
+        }else{
+            //request to node api for map my fitness data
+
+            //draw polylines from cross filter processed map my fitness data
+
+        }
+    }
+
 }]);

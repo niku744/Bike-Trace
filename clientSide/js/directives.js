@@ -108,11 +108,6 @@ bikeTrace.directive('makeSidebarNav',function(){
     };
 });
 
-////this directive draws polylines from bike route data
-//bikeTrace.directive('drawBikeRoutes',function(){
-//
-//});
-
 ////this directive makes a heatmap out of bike route data
 //bikeTrace.directive('makeRouteHeatMap',function(){
 //

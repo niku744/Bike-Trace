@@ -1,4 +1,11 @@
 {
-    "name": "application-name",
-    "version": "0.0.1"
+    "name": "bike-trace",
+    "version": "0.0.0",
+    "description": "Map my fitness bike route comprehensive visualizer",
+    "main": "server.js",
+    "dependencies":{
+        "express": "latest",
+        "passport": "latest"
+    }
+
 }
