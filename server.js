@@ -29,7 +29,7 @@ var util = require('util');
 var passport = require('passport');
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 var InternalOAuthError = require('passport-oauth').InternalOAuthError;
-var mapMyFitnessStrategy = require(mapMyFitness).Strategy;
+var mapMyFitnessStrategy = require('mmfStrategy').Strategy;
 //the request module is included here
 var request = require('request');
 
@@ -125,7 +125,7 @@ function mmfStrategy(options, verify) {
 // Inherit from `OAuth2Strategy`.
 util.inherits(mmfStrategy, OAuth2Strategy);
 
-module.exports.Strategy = mmfStrategy;
+module.exports = mmfStrategy;
 
 //helper function to help map my fitness api requests
 var apiRequestHelper = function(url,user){
