@@ -145,6 +145,21 @@ app.get('/mainView',authenticated, function(req,res){
     res.render('main');
 });
 
+//process angular app request for map my fitness data
+app.post('/giveRouteData',function(req,res){
+    var requestUrl="/7.0/route/?limit=20"+"&close_to_location="+req.location.lat()+'%2C'+req.location.lng()+'&maximum_distance='+req.max+'&minimum_distance='+req.min+'field_set=detailed'
+
+    var options = apiRequestHelper(requestUrl,req.user);
+
+    request(options, function(err, resp, body) {
+        if (!err && resp.statusCode == 200) {
+            console.log(JSON.parse(body));
+        }else{
+            alert("api not working")
+        }
+    });
+
+});
 
 var server = http.createServer(app);
 server.listen(3000);
