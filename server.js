@@ -13,7 +13,7 @@
 //var fs = require('fs');
 //
 //http.createServer(function(req,res){
-//    fs.readFile('public/index.html',function(err,data){
+//    fs.readFile('public/main.html',function(err,data){
 //        res.writeHead(200,{'Content-type':'text/html'});
 //        res.end(data);
 //    });
@@ -25,6 +25,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+
 //the passport module is included here
 var passport = require('passport');
 
@@ -36,7 +37,7 @@ var request = require('request');
 
 var MMF_CLIENT_ID ='8k5ze8f3cawxmh2svuc5ebyfr8d8k29n';
 var MMF_CLIENT_SECRET ='tR52PySfqq5ZtxAKpYseVV3jHjmdbrKynMxSfNuR76A';
-var MMF_CALLBACK_URL ='localhost:3000/auth/mapmyfitness/callback';
+var MMF_CALLBACK_URL ='http://localhost.mapmyapi.com:3000/callback';
 
 if(sessionSecret){
     var sessionSecret = 'secret';
@@ -50,9 +51,14 @@ app.configure(function(){
     app.use(express.logger('dev'));
     app.use(express.cookieParser());
     app.set('view engine','html');
+    app.engine('html',require('ejs').__express);
+    app.use(express.bodyParser());
+    app.use(express.session({
+        secret: sessionSecret
+    }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(express.static(path.join(__dirname, '/public')));
+    app.use('/public',express.static(path.join(__dirname, 'public')));
 });
 
 passport.serializeUser(function(user,done){
@@ -64,8 +70,11 @@ passport.deserializeUser(function(id,done){
 });
 //passport config
 passport.use(new mapMyFitnessStrategy({
+
     clientID:MMF_CLIENT_ID,
+
     clientSecret:MMF_CLIENT_SECRET,
+
     callbackURL:MMF_CALLBACK_URL
 },function(accessToken,refreshToken,profile,done){
     console.log("Access Token:"+accessToken);
@@ -75,15 +84,16 @@ passport.use(new mapMyFitnessStrategy({
     return done(null, profile);
 }
 ));
-
-app.get('auth/mapmyfitness', passport.authenticate('mapMyFitness'));
-
-app.get('/auth/mapmyfitness/callback',
+app.get('/callback',
     passport.authenticate('mapMyFitness',{
         successRedirect: '/mainView',
         failureRedirect: '/login'
     })
 );
+
+app.get('/auth/mapmyfitness', passport.authenticate('mapMyFitness'));
+
+
 //logout handler
 app.get('/auth/logout',function(req,res){
     req.logOut();
@@ -107,7 +117,7 @@ app.get('/', function(req,res){
     if(req.isAuthenticated()){
         res.redirect('/mainView');
     }else{
-        res.render('landPage')
+        res.render('index.html')
     }
 });
 
@@ -144,6 +154,7 @@ app.post('/giveRouteData',function(req,res){
     });
 
 });
+
 
 var server = http.createServer(app);
 server.listen(3000);

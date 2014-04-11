@@ -10,9 +10,9 @@ var InternalOAuthError = require('passport-oauth').InternalOAuthError;
 //authentication strategy stuff
 function Strategy(options, verify) {
     options = options || {};
-    options.authorizationURL = 'https://www.mapmyfitness.com/v7.0/oauth2/authorize';
-    options.tokenURL = 'https://oauth2-api.mapmyapi.com/v7.0/oauth2/access_token';
-    options.Headers = options.Headers || {'Api-Key': options.clientID};
+    options.authorizationURL = options.authorizationURL || 'https://www.mapmyfitness.com/v7.0/oauth2/authorize/';
+    options.tokenURL = options.tokenURL || 'https://oauth2-api.mapmyapi.com/v7.0/oauth2/access_token';
+    options.customHeaders = options.customHeaders ||  {'Api-Key': options.clientID};
 
     OAuth2Strategy.call(this, options, verify);
     this.name = 'mapMyFitness';
