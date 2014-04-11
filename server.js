@@ -24,12 +24,10 @@
 //express is included here
 var express = require('express');
 var http = require('http');
-var util = require('util');
 //the passport module is included here
 var passport = require('passport');
-var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
-var InternalOAuthError = require('passport-oauth').InternalOAuthError;
-var mapMyFitnessStrategy = require('mmfStrategy').Strategy;
+
+var mapMyFitnessStrategy = require('./Auth-Config-Files').Strategy;
 //the request module is included here
 var request = require('request');
 
@@ -111,21 +109,6 @@ app.get('/', function(req,res){
         res.render('landPage')
     }
 });
-//authentication strategy stuff
-function mmfStrategy(options, verify) {
-    options = options || {};
-    options.authorizationURL = 'https://www.mapmyfitness.com/v7.0/oauth2/authorize';
-    options.tokenURL = 'https://oauth2-api.mapmyapi.com/v7.0/oauth2/access_token';
-    options.Headers = options.Headers || {'Api-Key': options.clientID};
-
-    OAuth2Strategy.call(this, options, verify);
-    this.name = 'mapMyFitness';
-}
-
-// Inherit from `OAuth2Strategy`.
-util.inherits(mmfStrategy, OAuth2Strategy);
-
-module.exports = mmfStrategy;
 
 //helper function to help map my fitness api requests
 var apiRequestHelper = function(url,user){
