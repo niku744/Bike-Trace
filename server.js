@@ -13,7 +13,7 @@
 //var fs = require('fs');
 //
 //http.createServer(function(req,res){
-//    fs.readFile('clientSide/main.html',function(err,data){
+//    fs.readFile('public/index.html',function(err,data){
 //        res.writeHead(200,{'Content-type':'text/html'});
 //        res.end(data);
 //    });
@@ -24,6 +24,7 @@
 //express is included here
 var express = require('express');
 var http = require('http');
+var path = require('path');
 //the passport module is included here
 var passport = require('passport');
 
@@ -51,7 +52,7 @@ app.configure(function(){
     app.set('view engine','html');
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(express.static(path.join(__dirname, 'clientSide')));
+    app.use(express.static(path.join(__dirname, '/public')));
 });
 
 passport.serializeUser(function(user,done){
