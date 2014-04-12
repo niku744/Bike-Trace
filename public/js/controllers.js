@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var bikeTrace=angular.module('bikeTrace.controllers', []);
+var bikeTrace=angular.module('bikeTrace.controllers', ['bikeTrace.services']);
 
 //this controller connects the input form elements
 bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceData,$scope){
@@ -20,9 +20,9 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
     $scope.max="";
 
     $scope.doThing= function(){
-        if(min>max){
+        if($scope.min>$scope.max){
             alert("Make sure lower end of search range is less than the higher end")
-        }else if(max<min){
+        }else if($scope.max<$scope.min){
             alert("Make sure the higher end of search range is greater than the lowe end")
         }else{
             //request to node api for map my fitness data
