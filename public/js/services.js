@@ -7,15 +7,20 @@ var bikeTrace= angular.module('bikeTrace.services', []);
 
 //pull map my fitness data down and store it somewhere.
 bikeTrace.factory('getTraceData',['$http',function($http){
-    var doIt= function(location,min,max){
+    var traceData={};
+    traceData.doIt= function(location,min,max){
+//        console.log(min);
+//        console.log(max);
         $http({
             method: 'POST',
             url:'/giveRouteData',
             data:{
-                location:location,
+                latitude:location.lat(),
+                longitude:location.lng(),
                 min:min,
                 max:max
             }
         });
     };
+    return traceData;
 }]);

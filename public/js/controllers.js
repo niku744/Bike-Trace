@@ -20,15 +20,16 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
     $scope.max="";
 
     $scope.doThing= function(){
+//        console.log($scope.min);
+//        console.log($scope.max);
         if($scope.min>$scope.max){
             alert("Make sure lower end of search range is less than the higher end")
         }else if($scope.max<$scope.min){
             alert("Make sure the higher end of search range is greater than the lowe end")
         }else{
             //request to node api for map my fitness data
-                getTraceData.doIt($scope.placeLocation,$scope.min,$scope.max).success(function(data){
-                    console.log(data);
-                });
+
+            getTraceData.doIt($scope.placeLocation,$scope.min,$scope.max);
             //draw polylines from cross filter processed map my fitness data
 
         }
