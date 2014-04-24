@@ -142,18 +142,41 @@ app.get('/mainView',authenticated, function(req,res){
 //process angular app request for map my fitness data
 app.post('/giveRouteData',function(req,res){
 //    console.log(req);
+    var routeData=[];
     var requestUrl="/v7.0/route/?limit=40&close_to_location="+req.body.latitude+'%2C'+req.body.longitude+'&maximum_distance='+req.body.max+'&minimum_distance='+req.body.min+'&field_set=detailed';
 
     var options = apiRequestHelper(requestUrl,req.user);
 
     request(options, function(err, resp, body) {
-////        console.log(err);
-//        console.log(resp);
+        console.log(err);
+        console.log(resp);
         var dataBody=JSON.parse(body);
         if (!err && resp.statusCode == 200) {
             console.log(body);
             console.log(dataBody._embedded);
-
+            console.log(dataBody._embedded.routes[0].points);
+            for(var route in dataBody._embedded.routes){
+                routeData.push(route.created_datetime,route.postal_code,route.points);
+            }
+            if(dataBody.total_count>40){
+                var page=body._links.next.href;
+                for(var i=1;i<Math.ceil(dataBody.total_count/40);i++){
+                    requestUrl=page;
+                    options=apiRequestHelper(requestUrl,req.user);
+                    request(options,function(err,resp,body){
+                        var parsedData=JSON.parse(body);
+                        page=parsedData._links.next.href;
+                        if(!err&&resp.statusCode==200){
+                            for(var route in body._embedded.routes){
+                                routeData.push(route.created_datetime,route.postal_code,route.points);
+                            }
+                        }else{
+                            console.log("Something is wrong");
+                        }
+                    });
+                };
+            }
+            console.log(routeData);
         }else{
             console.log("api not working");
         }
