@@ -148,26 +148,34 @@ app.post('/giveRouteData',function(req,res){
     var options = apiRequestHelper(requestUrl,req.user);
 
     request(options, function(err, resp, body) {
-        console.log(err);
-        console.log(resp);
+//        console.log(err);
+//        console.log(resp);
         var dataBody=JSON.parse(body);
         if (!err && resp.statusCode == 200) {
-            console.log(body);
-            console.log(dataBody._embedded);
-            console.log(dataBody._embedded.routes[0].points);
-            for(var route in dataBody._embedded.routes){
+//            console.log(body);
+//            console.log(dataBody._embedded.routes);
+//            console.log(dataBody._embedded.routes[0].points);
+            dataBody._embedded.routes.forEach(function(route){
                 routeData.push(route.created_datetime,route.postal_code,route.points);
-            }
+            });
+//            console.log(dataBody.total_count);
             if(dataBody.total_count>40){
-                var page=body._links.next.href;
+//                console.log(dataBody._links);
+                var page=dataBody._links.next[0].href;
+                console.log(page);
                 for(var i=1;i<Math.ceil(dataBody.total_count/40);i++){
                     requestUrl=page;
                     options=apiRequestHelper(requestUrl,req.user);
-                    request(options,function(err,resp,body){
-                        var parsedData=JSON.parse(body);
-                        page=parsedData._links.next.href;
+                    request(options,function(err,resp,rbody){
+                        console.log(rbody);
+
+                        var parsedData=JSON.parse(rbody);
+                        if(parsedData._links.next!=null){
+                            page=parsedData._links.next[0].href;
+                        };
+
                         if(!err&&resp.statusCode==200){
-                            for(var route in body._embedded.routes){
+                            for(var route in parsedData._embedded.routes){
                                 routeData.push(route.created_datetime,route.postal_code,route.points);
                             }
                         }else{
@@ -175,8 +183,10 @@ app.post('/giveRouteData',function(req,res){
                         }
                     });
                 };
+//                console.log("hi");
             }
-            console.log(routeData);
+//            console.log(routeData);
+              console.log(routeData.length);
         }else{
             console.log("api not working");
         }
