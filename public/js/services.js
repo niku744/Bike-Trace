@@ -11,7 +11,7 @@ bikeTrace.factory('getTraceData',['$http',function($http){
     traceData.doIt= function(location,min,max){
 //        console.log(min);
 //        console.log(max);
-        $http({
+        return $http({
             method: 'POST',
             url:'/giveRouteData',
             data:{

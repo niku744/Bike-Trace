@@ -22,7 +22,7 @@
     <form id="tools">
         <a id="simple-menu" href="#sidr"><input type="button" value="Settings" id="settings"></a>
         <label for="EnableHeatMap">Enable Heat Map</label>
-        <input type="checkbox" id="EnableHeatMap">
+        <input type="checkbox" checked="true" id="EnableHeatMap" ng-click="heatMapVisibility()" >
     </form>
 </div>
 
@@ -33,7 +33,8 @@
 </body>
 
 <script src="../public/lib/angular.min.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&sensor=false"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places,
+visualization&sensor=false"></script>
 <script src="../public/js/app.js"></script>
 <script src="../public/js/services.js"></script>
 <script src="../public/js/controllers.js"></script>

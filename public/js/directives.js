@@ -84,7 +84,7 @@ bikeTrace.directive('makeSidebarNav',function(){
     return{
         restrict: 'A',
         replace: true ,
-        template:'<div id="sidr"><dl class="Zebra_Accordion"><dt>Filter</dt><dd></dd><dt>Saved Markers</dt><dd></dd><dt>Download</dt><dd><form><input type="button" value="Download All Data" id="downloadAllData"></form></dd></dl></div>',
+        template:'<div id="sidr"><dl class="Zebra_Accordion"><dt>Filter</dt><dd></dd><dt>Download</dt><dd><form><input type="button" value="Download All Data" id="downloadAllData"></form></dd></dl></div>',
         link: function(scope,elem,attrs){
            var makeThing =function(){
                //sidebar code

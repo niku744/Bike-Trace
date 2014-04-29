@@ -11,6 +11,14 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
 
     var searchBox = new google.maps.places.Autocomplete(input);
 
+    var rawData;
+
+    var googlePoints=[];
+
+    var googleMVC;
+
+    var heatmap;
+
     google.maps.event.addListener(searchBox, 'place_changed', function() {
         var place = searchBox.getPlace();
         $scope.placeLocation = place.geometry.location;
@@ -27,12 +35,50 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
         }else if($scope.max<$scope.min){
             alert("Make sure the higher end of search range is greater than the lowe end")
         }else{
-            //request to node api for map my fitness data
+           //set zoom and center focus to be on the selected location
+            $scope.map.setZoom(10);
 
-            getTraceData.doIt($scope.placeLocation,$scope.min,$scope.max);
+            $scope.map.setCenter($scope.placeLocation);
+
+            var minMeter=$scope.min*1609.344;
+            var maxMeter=$scope.max*1609.344;
+            //request to node api for map my fitness data
+            getTraceData.doIt($scope.placeLocation,minMeter,maxMeter).
+                success(function(data){
+
+                    console.log(data);
+
+                    rawData=data;
+
+                    rawData.forEach(function(bikeRoute){
+                        bikeRoute.points.forEach(function(point){
+                            googlePoints.push(new google.maps.LatLng(point.lat, point.lng))
+                        });
+                    });
+
+                    googleMVC = new google.maps.MVCArray(googlePoints);
+
+                    heatmap = new google.maps.visualization.HeatmapLayer({
+                        data: googleMVC
+                    });
+
+
+                    heatmap.setMap($scope.map);
+
+
+
+                }).
+                error(function(data){
+                    console.log(data);
+
+                });
+
             //draw polylines from cross filter processed map my fitness data
 
         }
+    };
+    $scope.heatMapVisibility= function(){
+        heatmap.setMap(heatmap.getMap() ? null : $scope.map);
     }
 
 }]);
