@@ -19,6 +19,8 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
 
     var heatmap;
 
+    var lines=[];
+
     google.maps.event.addListener(searchBox, 'place_changed', function() {
         var place = searchBox.getPlace();
         $scope.placeLocation = place.geometry.location;
@@ -51,9 +53,19 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
                     rawData=data;
 
                     rawData.forEach(function(bikeRoute){
+                        lines.push(new Array());
                         bikeRoute.points.forEach(function(point){
-                            googlePoints.push(new google.maps.LatLng(point.lat, point.lng))
+                            googlePoints.push(new google.maps.LatLng(point.lat, point.lng));
+                            lines[lines.length-1].push(new google.maps.LatLng(point.lat, point.lng));
                         });
+
+                        new google.maps.Polyline({
+                            path: lines[lines.length-1],
+                            geodesic: true,
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2
+                        }).setMap($scope.map);
                     });
 
                     googleMVC = new google.maps.MVCArray(googlePoints);
