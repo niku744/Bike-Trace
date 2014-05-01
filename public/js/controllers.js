@@ -38,7 +38,7 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
             alert("Make sure the higher end of search range is greater than the lowe end")
         }else{
            //set zoom and center focus to be on the selected location
-            $scope.map.setZoom(10);
+            $scope.map.setZoom(13);
 
             $scope.map.setCenter($scope.placeLocation);
 
