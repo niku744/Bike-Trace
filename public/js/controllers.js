@@ -21,6 +21,8 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
 
     var lines=[];
 
+    var polylines=[];
+
     google.maps.event.addListener(searchBox, 'place_changed', function() {
         var place = searchBox.getPlace();
         $scope.placeLocation = place.geometry.location;
@@ -59,13 +61,13 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
                             lines[lines.length-1].push(new google.maps.LatLng(point.lat, point.lng));
                         });
 
-                        new google.maps.Polyline({
+                        polylines.push(new google.maps.Polyline({
                             path: lines[lines.length-1],
                             geodesic: true,
                             strokeColor: '#FF0000',
                             strokeOpacity: 1.0,
                             strokeWeight: 2
-                        }).setMap($scope.map);
+                        }).setMap($scope.map));
                     });
 
                     googleMVC = new google.maps.MVCArray(googlePoints);
@@ -89,8 +91,15 @@ bikeTrace.controller('queryConnect',['getTraceData','$scope',function(getTraceDa
 
         }
     };
+
     $scope.heatMapVisibility= function(){
         heatmap.setMap(heatmap.getMap() ? null : $scope.map);
-    }
+    };
+
+    $scope.polylineVisibility=function(){
+        polylines.forEach(function(polyline){
+            polyline.setMap(polyline.getMap() ? null: $scope.map);
+        })
+    };
 
 }]);

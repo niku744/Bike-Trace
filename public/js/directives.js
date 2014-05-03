@@ -54,7 +54,7 @@ bikeTrace.directive('makeMap', function(){
                 // clicked.
                 google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
 
-                    //automatically save a marker after it is created
+
 
                     //event listener is attached to the new marker here
                     google.maps.event.addListener(marker, 'click', function(){
